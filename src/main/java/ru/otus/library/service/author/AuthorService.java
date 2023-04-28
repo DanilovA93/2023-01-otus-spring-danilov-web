@@ -1,0 +1,13 @@
+package ru.otus.library.service.author;
+
+import java.util.List;
+import ru.otus.library.dto.author.AuthorDtoRq;
+import ru.otus.library.dto.author.AuthorDtoRs;
+import ru.otus.library.entity.Author;
+
+public interface AuthorService {
+  AuthorDtoRs create(AuthorDtoRq rq);
+  AuthorDtoRs findById(Long id);
+  List<AuthorDtoRs> findAll();
+  void delete(Long id);
+}
