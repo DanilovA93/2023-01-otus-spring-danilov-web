@@ -22,7 +22,7 @@ public class AuthorServiceImpl implements AuthorService {
   @Transactional
   public AuthorDtoRs create(AuthorDtoRq rq) {
     Author author = authorMapper.map(rq);
-    author = authorDao.save(author);
+    authorDao.save(author);
     return authorMapper.map(author);
   }
 

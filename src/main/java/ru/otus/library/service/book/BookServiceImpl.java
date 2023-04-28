@@ -27,8 +27,8 @@ public class BookServiceImpl implements BookService {
   public BookDtoRs create(BookDtoRq rq) {
     Book book = bookMapper.map(rq);
     fill(book, rq);
-    book = bookDao.save(book);//todo надо липереопределять или id подтянется?
-    return bookMapper.map(book);
+
+    return bookMapper.map(bookDao.save(book));
   }
 
   @Override

@@ -21,9 +21,9 @@ public class GenreServiceImpl implements GenreService {
   @Override
   @Transactional
   public GenreDtoRs create(GenreDtoRq rq) {
-    Genre author = genreMapper.map(rq);
-    author = genreDao.save(author);
-    return genreMapper.map(author);
+    Genre genre = genreMapper.map(rq);
+    genreDao.save(genre);
+    return genreMapper.map(genre);
   }
 
   @Override
