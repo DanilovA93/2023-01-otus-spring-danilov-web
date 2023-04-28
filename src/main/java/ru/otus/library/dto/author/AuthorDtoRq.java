@@ -1,9 +1,7 @@
 package ru.otus.library.dto.author;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
-import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,12 +9,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-public class AuthorDtoRq implements Serializable {
+@EqualsAndHashCode
+public class AuthorDtoRq {
 
   @JsonIgnore
   private Long id;
 
-  @JsonProperty("name")
   private String name;
+
+  public AuthorDtoRq(String name) {
+    this.name = name;
+  }
 }
