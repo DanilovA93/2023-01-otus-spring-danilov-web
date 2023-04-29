@@ -1,5 +1,7 @@
 package ru.otus.library.service.comment;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,9 +32,10 @@ public class CommentServiceImpl implements CommentService {
 
   @Override
   @Transactional(readOnly = true)
-  public CommentDtoRs findOne(Long id) {
-    Comment comment = commentDao.findOneOrThrowException(id);
-    return commentMapper.map(comment);
+  public List<CommentDtoRs> findAllByBookId(Long bookId) {
+    return commentDao.findAllByBookId(bookId).stream()
+        .map(commentMapper::map)
+        .collect(Collectors.toList());
   }
 
   @Override

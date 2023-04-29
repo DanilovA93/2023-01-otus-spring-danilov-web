@@ -1,5 +1,6 @@
 package ru.otus.library.facade.comment;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.otus.library.dto.comment.CommentDtoRq;
@@ -13,14 +14,13 @@ public class CommentFacadeImpl implements CommentFacade {
   private final CommentService commentService;
 
   @Override
-  public CommentDtoRs create(Long bookId, CommentDtoRq rq) {
-    rq.setBookId(bookId);
+  public CommentDtoRs create(CommentDtoRq rq) {
     return commentService.create(rq);
   }
 
   @Override
-  public CommentDtoRs findById(Long commentId) {
-    return commentService.findOne(commentId);
+  public List<CommentDtoRs> findAllByBookId(Long bookId) {
+    return commentService.findAllByBookId(bookId);
   }
 
   @Override

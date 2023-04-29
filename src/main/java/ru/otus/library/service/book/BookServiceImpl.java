@@ -9,7 +9,8 @@ import ru.otus.library.dao.author.AuthorDao;
 import ru.otus.library.dao.book.BookDao;
 import ru.otus.library.dao.genre.GenreDao;
 import ru.otus.library.dto.book.BookDtoRq;
-import ru.otus.library.dto.book.BookDtoRs;
+import ru.otus.library.dto.book.FullBookDtoRs;
+import ru.otus.library.dto.book.SimpleBookDtoRs;
 import ru.otus.library.entity.Book;
 import ru.otus.library.mapper.BookMapper;
 
@@ -24,34 +25,34 @@ public class BookServiceImpl implements BookService {
 
   @Override
   @Transactional
-  public BookDtoRs create(BookDtoRq rq) {
+  public SimpleBookDtoRs create(BookDtoRq rq) {
     Book book = bookMapper.map(rq);
     fill(book, rq);
 
-    return bookMapper.map(bookDao.save(book));
+    return bookMapper.mapToSimple(bookDao.save(book));
   }
 
   @Override
   @Transactional(readOnly = true)
-  public List<BookDtoRs> findAll() {
+  public List<SimpleBookDtoRs> findAll() {
     return bookDao.findAll().stream()
-        .map(bookMapper::map)
+        .map(bookMapper::mapToSimple)
         .collect(Collectors.toList());
   }
 
   @Override
   @Transactional(readOnly = true)
-  public BookDtoRs findById(Long id) {
-    return bookMapper.map(bookDao.findOneOrThrowException(id));
+  public FullBookDtoRs findById(Long id) {
+    return bookMapper.mapToFull(bookDao.findOneOrThrowException(id));
   }
 
   @Override
   @Transactional
-  public BookDtoRs update(BookDtoRq rq) {
+  public SimpleBookDtoRs update(BookDtoRq rq) {
     Book book = bookDao.findOneOrThrowException(rq.getId());
     fill(book, rq);
 
-    return bookMapper.map(bookDao.save(book));
+    return bookMapper.mapToSimple(bookDao.save(book));
   }
 
   @Override

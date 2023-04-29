@@ -12,9 +12,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class AuthorDtoRq {
 
-  @JsonIgnore
   private Long id;
-
   private String name;
 
   public AuthorDtoRq(String name) {

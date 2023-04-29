@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <title>Genres</title>
+</head>
+<body>
+<div>
+  <h1>List of genres</h1>
+  <form action="#" th:action="@{/library}">
+    <button type="submit" name="action">Go Back</button>
+  </form>
+</div>
+
+<div>
+  <table>
+    <thead>
+    <tr class="table-info">
+      <td><b>ID</b></td>
+      <td><b>NAME</b></td>
+      <td><b>ACTIONS</b></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="genre : ${genres}">
+      <form action="#" th:action="@{/genres}" method="post">
+        <td><input type="text" name="id" th:value="${genre.id}" readonly></td>
+        <td><input type="text" name="name" th:value="${genre.name}"></td>
+        <td><button type="submit" name="action" value="save">UPDATE</button></td>
+        <td><button type="submit" name="action" value="delete">DELETE</button></td>
+      </form>
+    </tr>
+    <form action="#" th:action="@{/genres}" method="post">
+      <td></td>
+      <td><input type="text" name="name" placeholder="name"></td>
+      <td><button type="submit" name="action" value="save">ADD</button></td>
+    </form>
+
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

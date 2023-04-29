@@ -1,5 +1,6 @@
 package ru.otus.library.dao.comment;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.library.entity.Comment;
@@ -17,16 +18,8 @@ public class CommentDaoImpl implements CommentDao {
   }
 
   @Override
-  public Comment findOneOrThrowException(Long id) {
-    if (id == null) {
-      throw new RuntimeException("Comment id is null");
-    }
-
-    return commentRepository
-        .findById(id)
-        .orElseThrow(
-            () -> new RuntimeException("Comment with id " + id + "  not found")
-        );
+  public List<Comment> findAllByBookId(Long bookId) {
+    return commentRepository.findAllByBookId(bookId);
   }
 
   @Override

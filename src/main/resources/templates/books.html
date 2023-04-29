@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <title>Books</title>
+</head>
+<body>
+<div>
+  <h1>List of books</h1>
+  <form action="#" th:action="@{/library}">
+    <button type="submit" name="action">Go Back</button>
+  </form>
+</div>
+
+<div>
+  <table>
+    <thead>
+    <tr class="table-info">
+      <td><b>ID</b></td>
+      <td><b>NAME</b></td>
+      <td><b>AUTHOR</b></td>
+      <td><b>GENRE</b></td>
+      <td><b>ACTIONS</b></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book:${books}">
+      <form action="#" th:action="@{/books}" method="post">
+        <td><input type="text" name="id" th:value="${book.id}" readonly></td>
+        <td><input type="text" name="name" th:value="${book.name}"></td>
+        <td>
+          <input type="text"
+                 name="authorId"
+                 th:value="${book.author.id}"
+                 th:text="${book.author.name}"
+                 hidden>
+        </td>
+        <td>
+          <input type="text"
+                 name="genreId"
+                 th:value="${book.genre.id}"
+                 th:text="${book.genre.name}"
+                 hidden>
+        </td>
+        <td><button type="submit" name="action" value="save">UPDATE</button></td>
+        <td><button type="submit" name="action" value="delete">DELETE</button></td>
+      </form>
+      <form action="#" th:action="@{/books/{id}(id = ${book.id})}">
+        <td><button type="submit">OPEN</button></td>
+      </form>
+    </tr>
+    <tr>
+      <form action="#" th:action="@{/books}" method="post">
+        <td></td>
+        <td><input type="text" name="name" placeholder="name"></td>
+        <td>
+          <select name="authorId">
+            <option
+                th:each="author:${authors}"
+                th:value="${author.id}"
+                th:text="${author.name}">
+          </select>
+        </td>
+        <td>
+          <select name="genreId">
+            <option
+                th:each="genres:${genres}"
+                th:value="${genres.id}"
+                th:text="${genres.name}">
+          </select>
+        </td>
+        <td><button type="submit" name="action" value="save">ADD</button></td>
+      </form>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
