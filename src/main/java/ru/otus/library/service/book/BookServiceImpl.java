@@ -25,7 +25,7 @@ public class BookServiceImpl implements BookService {
 
   @Override
   @Transactional
-  public SimpleBookDtoRs create(BookDtoRq rq) {
+  public SimpleBookDtoRs save(BookDtoRq rq) {
     Book book = bookMapper.map(rq);
     fill(book, rq);
 
@@ -44,15 +44,6 @@ public class BookServiceImpl implements BookService {
   @Transactional(readOnly = true)
   public FullBookDtoRs findById(Long id) {
     return bookMapper.mapToFull(bookDao.findOneOrThrowException(id));
-  }
-
-  @Override
-  @Transactional
-  public SimpleBookDtoRs update(BookDtoRq rq) {
-    Book book = bookDao.findOneOrThrowException(rq.getId());
-    fill(book, rq);
-
-    return bookMapper.mapToSimple(bookDao.save(book));
   }
 
   @Override

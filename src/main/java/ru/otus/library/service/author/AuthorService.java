@@ -6,7 +6,7 @@ import ru.otus.library.dto.author.AuthorDtoRs;
 import ru.otus.library.entity.Author;
 
 public interface AuthorService {
-  AuthorDtoRs create(AuthorDtoRq rq);
+  AuthorDtoRs save(AuthorDtoRq rq);
   AuthorDtoRs findById(Long id);
   List<AuthorDtoRs> findAll();
   void delete(Long id);

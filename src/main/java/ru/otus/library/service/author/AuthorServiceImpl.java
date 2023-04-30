@@ -20,7 +20,7 @@ public class AuthorServiceImpl implements AuthorService {
 
   @Override
   @Transactional
-  public AuthorDtoRs create(AuthorDtoRq rq) {
+  public AuthorDtoRs save(AuthorDtoRq rq) {
     Author author = authorMapper.map(rq);
     authorDao.save(author);
     return authorMapper.map(author);

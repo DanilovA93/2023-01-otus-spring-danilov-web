@@ -3,10 +3,10 @@ package ru.otus.library.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +19,8 @@ import ru.otus.library.dto.book.FullBookDtoRs;
 import ru.otus.library.dto.comment.CommentDtoRq;
 import ru.otus.library.dto.comment.CommentDtoRs;
 import ru.otus.library.dto.genre.GenreDtoRs;
-import ru.otus.library.facade.book.BookFacade;
-import ru.otus.library.facade.comment.CommentFacade;
+import ru.otus.library.service.book.BookService;
+import ru.otus.library.service.comment.CommentService;
 
 @WebMvcTest(CommentController.class)
 class CommentControllerTest {
@@ -28,14 +28,11 @@ class CommentControllerTest {
   @Autowired
   private MockMvc mvc;
 
-  @Autowired
-  private ObjectMapper mapper;
+  @MockBean
+  private CommentService commentService;
 
   @MockBean
-  private CommentFacade commentFacade;
-
-  @MockBean
-  private BookFacade bookFacade;
+  private BookService bookService;
 
   private CommentDtoRq commentDtoRq;
   private CommentDtoRs commentDtoRs;
@@ -54,8 +51,8 @@ class CommentControllerTest {
 
   @Test
   void save() throws Exception {
-    given(commentFacade.create(any())).willReturn(commentDtoRs);
-    given(bookFacade.findById(anyLong())).willReturn(bookDtoRs);
+    given(commentService.save(any())).willReturn(commentDtoRs);
+    given(bookService.findById(anyLong())).willReturn(bookDtoRs);
 
     mvc.perform(
         post("/comments")
@@ -69,7 +66,8 @@ class CommentControllerTest {
 
   @Test
   void delete() throws Exception {
-    given(bookFacade.findById(anyLong())).willReturn(bookDtoRs);
+    doNothing().when(bookService).delete(any());
+    given(bookService.findById(anyLong())).willReturn(bookDtoRs);
 
     mvc.perform(
         post("/comments")

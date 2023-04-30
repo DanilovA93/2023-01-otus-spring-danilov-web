@@ -5,7 +5,7 @@ import ru.otus.library.dto.genre.GenreDtoRq;
 import ru.otus.library.dto.genre.GenreDtoRs;
 
 public interface GenreService {
-  GenreDtoRs create(GenreDtoRq rq);
+  GenreDtoRs save(GenreDtoRq rq);
   GenreDtoRs findById(Long id);
   List<GenreDtoRs> findAll();
   void delete(Long id);

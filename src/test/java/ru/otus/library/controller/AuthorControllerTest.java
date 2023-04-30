@@ -15,7 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.library.dto.author.AuthorDtoRq;
 import ru.otus.library.dto.author.AuthorDtoRs;
-import ru.otus.library.facade.author.AuthorFacade;
+import ru.otus.library.service.author.AuthorService;
 
 @WebMvcTest(AuthorController.class)
 class AuthorControllerTest {
@@ -27,7 +27,7 @@ class AuthorControllerTest {
   private ObjectMapper mapper;
 
   @MockBean
-  private AuthorFacade authorFacade;
+  private AuthorService authorService;
 
   private AuthorDtoRq authorDtoRq;
   private AuthorDtoRs authorDtoRs;
@@ -40,7 +40,7 @@ class AuthorControllerTest {
 
   @Test
   void save() throws Exception {
-    given(authorFacade.create(authorDtoRq)).willReturn(authorDtoRs);
+    given(authorService.save(authorDtoRq)).willReturn(authorDtoRs);
 
     mvc.perform(post("/authors")
         .param("action", "save")
@@ -52,7 +52,7 @@ class AuthorControllerTest {
   void findAll() throws Exception {
     List<AuthorDtoRs> authors = List.of(authorDtoRs);
 
-    given(authorFacade.findAll()).willReturn(authors);
+    given(authorService.findAll()).willReturn(authors);
 
     mvc.perform(get("/authors"))
         .andExpect(status().isOk());

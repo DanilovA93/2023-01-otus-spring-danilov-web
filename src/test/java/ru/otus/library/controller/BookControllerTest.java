@@ -1,4 +1,4 @@
-package ru.otus.library.controller.book.rest;
+package ru.otus.library.controller;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -13,15 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.otus.library.controller.BookController;
 import ru.otus.library.dto.author.AuthorDtoRs;
 import ru.otus.library.dto.book.BookDtoRq;
 import ru.otus.library.dto.book.FullBookDtoRs;
 import ru.otus.library.dto.book.SimpleBookDtoRs;
 import ru.otus.library.dto.genre.GenreDtoRs;
-import ru.otus.library.facade.author.AuthorFacade;
-import ru.otus.library.facade.book.BookFacade;
-import ru.otus.library.facade.genre.GenreFacade;
+import ru.otus.library.service.author.AuthorService;
+import ru.otus.library.service.book.BookService;
+import ru.otus.library.service.genre.GenreService;
 
 @WebMvcTest(BookController.class)
 class BookControllerTest {
@@ -30,13 +29,13 @@ class BookControllerTest {
   private MockMvc mvc;
 
   @MockBean
-  private BookFacade bookFacade;
+  private BookService bookService;
 
   @MockBean
-  private AuthorFacade authorFacade;
+  private AuthorService authorService;
 
   @MockBean
-  private GenreFacade genreFacade;
+  private GenreService genreService;
 
   private BookDtoRq bookDtoRq;
   private SimpleBookDtoRs simpleBookDtoRs;
@@ -58,7 +57,7 @@ class BookControllerTest {
     Long id = 1L;
     String url = "/books/" + id;
 
-    given(bookFacade.findById(id)).willReturn(fullBookDtoRs);
+    given(bookService.findById(id)).willReturn(fullBookDtoRs);
 
     mvc.perform(get(url)).andExpect(status().isOk());
   }
@@ -68,7 +67,7 @@ class BookControllerTest {
     String url = "/books/";
     List<SimpleBookDtoRs> list = List.of(simpleBookDtoRs);
 
-    given(bookFacade.findAll()).willReturn(list);
+    given(bookService.findAll()).willReturn(list);
 
     mvc.perform(get(url)).andExpect(status().isOk());
   }
@@ -77,7 +76,7 @@ class BookControllerTest {
   void save() throws Exception {
     String url = "/books/";
 
-    given(bookFacade.save(bookDtoRq)).willReturn(simpleBookDtoRs);
+    given(bookService.save(bookDtoRq)).willReturn(simpleBookDtoRs);
 
     mvc.perform(post(url)
         .param("action", "save"))
@@ -92,10 +91,10 @@ class BookControllerTest {
     Long id = 1L;
     String url = "/books/";
 
-    doNothing().when(bookFacade).deleteById(id);
-    given(bookFacade.findAll()).willReturn(books);
-    given(authorFacade.findAll()).willReturn(authors);
-    given(genreFacade.findAll()).willReturn(genres);
+    doNothing().when(bookService).delete(id);
+    given(bookService.findAll()).willReturn(books);
+    given(authorService.findAll()).willReturn(authors);
+    given(genreService.findAll()).willReturn(genres);
 
     mvc.perform(post(url)
         .param("action", "delete"))

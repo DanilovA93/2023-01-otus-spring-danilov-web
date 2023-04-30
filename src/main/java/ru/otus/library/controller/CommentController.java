@@ -7,24 +7,24 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.otus.library.dto.comment.CommentDtoRq;
-import ru.otus.library.facade.book.BookFacade;
-import ru.otus.library.facade.comment.CommentFacade;
+import ru.otus.library.service.book.BookService;
+import ru.otus.library.service.comment.CommentService;
 
 @Controller
 @RequestMapping("/comments")
 @RequiredArgsConstructor
 public class CommentController {
 
-  private final CommentFacade commentFacade;
-  private final BookFacade bookFacade;
+  private final CommentService commentService;
+  private final BookService bookService;
 
   @PostMapping(params="action=save")
   public String create(
       @ModelAttribute CommentDtoRq rq,
       Model model
   ){
-    commentFacade.create(rq);
-    model.addAttribute("book", bookFacade.findById(rq.getBookId()));
+    commentService.save(rq);
+    model.addAttribute("book", bookService.findById(rq.getBookId()));
 
     return "book";
   }
@@ -34,8 +34,8 @@ public class CommentController {
       @ModelAttribute CommentDtoRq rq,
       Model model
   ){
-    commentFacade.deleteById(rq.getId());
-    model.addAttribute("book", bookFacade.findById(rq.getBookId()));
+    commentService.delete(rq.getId());
+    model.addAttribute("book", bookService.findById(rq.getBookId()));
 
     return "book";
   }

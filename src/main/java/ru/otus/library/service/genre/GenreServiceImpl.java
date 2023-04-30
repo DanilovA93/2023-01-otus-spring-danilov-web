@@ -20,7 +20,7 @@ public class GenreServiceImpl implements GenreService {
 
   @Override
   @Transactional
-  public GenreDtoRs create(GenreDtoRq rq) {
+  public GenreDtoRs save(GenreDtoRq rq) {
     Genre genre = genreMapper.map(rq);
     genreDao.save(genre);
     return genreMapper.map(genre);

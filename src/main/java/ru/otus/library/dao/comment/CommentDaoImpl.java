@@ -18,11 +18,6 @@ public class CommentDaoImpl implements CommentDao {
   }
 
   @Override
-  public List<Comment> findAllByBookId(Long bookId) {
-    return commentRepository.findAllByBookId(bookId);
-  }
-
-  @Override
   public void delete(Long id) {
     commentRepository.deleteById(id);
   }

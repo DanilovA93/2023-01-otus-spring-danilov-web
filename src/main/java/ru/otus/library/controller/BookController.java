@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.otus.library.dto.book.BookDtoRq;
-import ru.otus.library.facade.author.AuthorFacade;
-import ru.otus.library.facade.book.BookFacade;
-import ru.otus.library.facade.genre.GenreFacade;
+import ru.otus.library.service.author.AuthorService;
+import ru.otus.library.service.book.BookService;
+import ru.otus.library.service.genre.GenreService;
 
 @Controller
 @RequestMapping("/books")
@@ -20,22 +20,22 @@ public class BookController {
 
   private final static String BOOKS_PAGE = "books";
   private final static String BOOK_PAGE = "book";
-  private final BookFacade bookFacade;
-  private final AuthorFacade authorFacade;
-  private final GenreFacade genreFacade;
+  private final BookService bookService;
+  private final AuthorService authorService;
+  private final GenreService genreService;
 
   @GetMapping("{id}")
   public String findOne(
       @PathVariable Long id,
       Model model
   ){
-    model.addAttribute("book", bookFacade.findById(id));
+    model.addAttribute("book", bookService.findById(id));
     return BOOK_PAGE;
   }
 
   @GetMapping
   public String findAll(Model model) {
-    model.addAttribute("books", bookFacade.findAll());
+    model.addAttribute("books", bookService.findAll());
     fillSecondary(model);
     return BOOKS_PAGE;
   }
@@ -45,8 +45,8 @@ public class BookController {
       @ModelAttribute BookDtoRq rq,
       Model model
   ){
-    bookFacade.save(rq);
-    model.addAttribute("books", bookFacade.findAll());
+    bookService.save(rq);
+    model.addAttribute("books", bookService.findAll());
     fillSecondary(model);
     return BOOKS_PAGE;
   }
@@ -56,14 +56,14 @@ public class BookController {
       @ModelAttribute BookDtoRq rq,
       Model model
   ){
-    bookFacade.deleteById(rq.getId());
-    model.addAttribute("books", bookFacade.findAll());
+    bookService.delete(rq.getId());
+    model.addAttribute("books", bookService.findAll());
     fillSecondary(model);
     return BOOKS_PAGE;
   }
 
   private void fillSecondary(Model model) {
-    model.addAttribute("authors", authorFacade.findAll());
-    model.addAttribute("genres", genreFacade.findAll());
+    model.addAttribute("authors", authorService.findAll());
+    model.addAttribute("genres", genreService.findAll());
   }
 }

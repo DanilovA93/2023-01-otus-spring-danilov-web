@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.otus.library.dto.genre.GenreDtoRq;
 import ru.otus.library.dto.genre.GenreDtoRs;
-import ru.otus.library.facade.genre.GenreFacade;
+import ru.otus.library.service.genre.GenreService;
 
 @Controller
 @RequestMapping("/genres")
@@ -19,21 +19,21 @@ import ru.otus.library.facade.genre.GenreFacade;
 public class GenreController {
 
   private final static String GENRES_PAGE = "genres";
-  private final GenreFacade genreFacade;
+  private final GenreService genreService;
 
   @PostMapping(params="action=save")
   public String save(
       @ModelAttribute GenreDtoRq rq,
       Model model
   ){
-    genreFacade.create(rq);
-    model.addAttribute("genres", genreFacade.findAll());
+    genreService.save(rq);
+    model.addAttribute("genres", genreService.findAll());
     return GENRES_PAGE;
   }
 
   @GetMapping
   public String findAll(Model model) {
-    List<GenreDtoRs> genres = genreFacade.findAll();
+    List<GenreDtoRs> genres = genreService.findAll();
     model.addAttribute("genres", genres);
     return GENRES_PAGE;
   }
@@ -43,8 +43,8 @@ public class GenreController {
       @PathVariable Long id,
       Model model
   ){
-    genreFacade.deleteById(id);
-    model.addAttribute("genres", genreFacade.findAll());
+    genreService.delete(id);
+    model.addAttribute("genres", genreService.findAll());
     return GENRES_PAGE;
   }
 }

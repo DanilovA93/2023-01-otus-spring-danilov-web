@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.otus.library.dto.author.AuthorDtoRq;
 import ru.otus.library.dto.author.AuthorDtoRs;
-import ru.otus.library.facade.author.AuthorFacade;
+import ru.otus.library.service.author.AuthorService;
 
 @Controller
 @RequestMapping("/authors")
@@ -19,21 +19,21 @@ import ru.otus.library.facade.author.AuthorFacade;
 public class AuthorController {
 
   private final static String AUTHORS_PAGE = "authors";
-  private final AuthorFacade authorFacade;
+  private final AuthorService authorService;
 
   @PostMapping(params="action=save")
   public String save(
       @ModelAttribute AuthorDtoRq rq,
       Model model
   ){
-    authorFacade.create(rq);
-    model.addAttribute("authors", authorFacade.findAll());
+    authorService.save(rq);
+    model.addAttribute("authors", authorService.findAll());
     return AUTHORS_PAGE;
   }
 
   @GetMapping
   public String findAll(Model model) {
-    List<AuthorDtoRs> authors = authorFacade.findAll();
+    List<AuthorDtoRs> authors = authorService.findAll();
     model.addAttribute("authors", authors);
     return AUTHORS_PAGE;
   }
@@ -43,8 +43,8 @@ public class AuthorController {
       @PathVariable Long id,
       Model model
   ){
-    authorFacade.deleteById(id);
-    model.addAttribute("authors", authorFacade.findAll());
+    authorService.delete(id);
+    model.addAttribute("authors", authorService.findAll());
     return AUTHORS_PAGE;
   }
 }

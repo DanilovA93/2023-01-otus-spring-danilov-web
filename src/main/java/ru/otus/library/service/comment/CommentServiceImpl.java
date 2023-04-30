@@ -23,19 +23,11 @@ public class CommentServiceImpl implements CommentService {
 
   @Override
   @Transactional
-  public CommentDtoRs create(CommentDtoRq rq) {
+  public CommentDtoRs save(CommentDtoRq rq) {
     Comment comment = commentMapper.map(rq);
     comment.setBook(bookDao.findOneOrThrowException(rq.getBookId()));
     comment = commentDao.save(comment);
     return commentMapper.map(comment);
-  }
-
-  @Override
-  @Transactional(readOnly = true)
-  public List<CommentDtoRs> findAllByBookId(Long bookId) {
-    return commentDao.findAllByBookId(bookId).stream()
-        .map(commentMapper::map)
-        .collect(Collectors.toList());
   }
 
   @Override

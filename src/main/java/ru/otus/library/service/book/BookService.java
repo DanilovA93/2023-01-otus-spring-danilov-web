@@ -6,9 +6,8 @@ import ru.otus.library.dto.book.FullBookDtoRs;
 import ru.otus.library.dto.book.SimpleBookDtoRs;
 
 public interface BookService {
-  SimpleBookDtoRs create(BookDtoRq rq);
+  SimpleBookDtoRs save(BookDtoRq rq);
   List<SimpleBookDtoRs> findAll();
   FullBookDtoRs findById(Long id);
-  SimpleBookDtoRs update(BookDtoRq rq);
   void delete(Long id);
 }

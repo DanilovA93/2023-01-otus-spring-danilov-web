@@ -15,7 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.library.dto.genre.GenreDtoRq;
 import ru.otus.library.dto.genre.GenreDtoRs;
-import ru.otus.library.facade.genre.GenreFacade;
+import ru.otus.library.service.genre.GenreService;
 
 @WebMvcTest(GenreController.class)
 class GenreControllerTest {
@@ -27,7 +27,7 @@ class GenreControllerTest {
   private ObjectMapper mapper;
 
   @MockBean
-  private GenreFacade genreFacade;
+  private GenreService genreService;
 
   private GenreDtoRq genreDtoRq;
   private GenreDtoRs genreDtoRs;
@@ -40,7 +40,7 @@ class GenreControllerTest {
 
   @Test
   void save() throws Exception {
-    given(genreFacade.create(genreDtoRq)).willReturn(genreDtoRs);
+    given(genreService.save(genreDtoRq)).willReturn(genreDtoRs);
 
     mvc.perform(post("/genres")
         .param("action", "save")
@@ -52,7 +52,7 @@ class GenreControllerTest {
   void findAll() throws Exception {
     List<GenreDtoRs> genres = List.of(genreDtoRs);
 
-    given(genreFacade.findAll()).willReturn(genres);
+    given(genreService.findAll()).willReturn(genres);
 
     mvc.perform(get("/genres"))
         .andExpect(status().isOk());
