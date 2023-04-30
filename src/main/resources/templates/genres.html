@@ -28,6 +28,8 @@
         <td><input type="text" name="id" th:value="${genre.id}" readonly></td>
         <td><input type="text" name="name" th:value="${genre.name}"></td>
         <td><button type="submit" name="action" value="save">UPDATE</button></td>
+      </form>
+      <form action="#" th:action="@{/genres/{id}(id = ${genre.id})}" method="post">
         <td><button type="submit" name="action" value="delete">DELETE</button></td>
       </form>
     </tr>

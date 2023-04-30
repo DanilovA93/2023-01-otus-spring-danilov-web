@@ -1,4 +1,4 @@
-package ru.otus.library.controller.author;
+package ru.otus.library.controller;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.otus.library.dto.author.AuthorDtoRq;
@@ -20,13 +21,6 @@ public class AuthorController {
   private final static String AUTHORS_PAGE = "authors";
   private final AuthorFacade authorFacade;
 
-  @GetMapping
-  public String findAll(Model model) {
-    List<AuthorDtoRs> authors = authorFacade.findAll();
-    model.addAttribute("authors", authors);
-    return AUTHORS_PAGE;
-  }
-
   @PostMapping(params="action=save")
   public String save(
       @ModelAttribute AuthorDtoRq rq,
@@ -37,12 +31,19 @@ public class AuthorController {
     return AUTHORS_PAGE;
   }
 
-  @PostMapping(params="action=delete")
+  @GetMapping
+  public String findAll(Model model) {
+    List<AuthorDtoRs> authors = authorFacade.findAll();
+    model.addAttribute("authors", authors);
+    return AUTHORS_PAGE;
+  }
+
+  @PostMapping(value = "{id}", params="action=delete")
   public String delete(
-      @ModelAttribute AuthorDtoRq rq,
+      @PathVariable Long id,
       Model model
   ){
-    authorFacade.deleteById(rq.getId());
+    authorFacade.deleteById(id);
     model.addAttribute("authors", authorFacade.findAll());
     return AUTHORS_PAGE;
   }

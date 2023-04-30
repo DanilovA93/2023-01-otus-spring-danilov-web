@@ -1,4 +1,4 @@
-package ru.otus.library.controller.book;
+package ru.otus.library.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -45,7 +45,7 @@ public class BookController {
       @ModelAttribute BookDtoRq rq,
       Model model
   ){
-    bookFacade.create(rq);
+    bookFacade.save(rq);
     model.addAttribute("books", bookFacade.findAll());
     fillSecondary(model);
     return BOOKS_PAGE;

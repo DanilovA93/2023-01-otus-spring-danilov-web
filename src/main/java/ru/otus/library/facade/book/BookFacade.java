@@ -7,7 +7,7 @@ import ru.otus.library.dto.book.SimpleBookDtoRs;
 
 public interface BookFacade {
 
-  SimpleBookDtoRs create(BookDtoRq rq);
+  SimpleBookDtoRs save(BookDtoRq rq);
   FullBookDtoRs findById(Long id);
   List<SimpleBookDtoRs> findAll();
   SimpleBookDtoRs update(Long bookId, BookDtoRq rq);

@@ -15,7 +15,7 @@ public class BookFacadeImpl implements BookFacade {
   private final BookService bookService;
 
   @Override
-  public SimpleBookDtoRs create(BookDtoRq rq) {
+  public SimpleBookDtoRs save(BookDtoRq rq) {
     return bookService.create(rq);
   }
 
