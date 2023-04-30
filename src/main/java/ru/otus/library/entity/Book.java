@@ -48,6 +48,6 @@ public class Book {
   @Fetch(FetchMode.JOIN)
   private Genre genre;
 
-  @OneToMany(mappedBy = "book")
+  @OneToMany(mappedBy = "book", orphanRemoval = true)
   private final List<Comment> comments = new ArrayList<>();
 }
