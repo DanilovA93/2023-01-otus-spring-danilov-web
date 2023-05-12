@@ -1,6 +1,8 @@
 package ru.otus.library.controller;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,7 +45,7 @@ class AuthorControllerTest {
     given(authorService.save(authorDtoRq)).willReturn(authorDtoRs);
 
     mvc.perform(post("/authors")
-        .param("action", "save")
+        .contentType(APPLICATION_JSON_VALUE)
         .content(mapper.writeValueAsString(authorDtoRq)))
         .andExpect(status().isOk());
   }
@@ -60,8 +62,7 @@ class AuthorControllerTest {
 
   @Test
   void deleteById() throws Exception {
-    mvc.perform(post("/authors/" + authorDtoRs.getId())
-        .param("action", "delete"))
+    mvc.perform(delete("/authors/" + authorDtoRs.getId()))
         .andExpect(status().isOk());
   }
 }
