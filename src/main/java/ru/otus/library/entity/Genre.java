@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +30,11 @@ import lombok.ToString;
 public class Genre {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @SequenceGenerator(
+      name = "genre_sequence",
+      sequenceName = "genre_sequence"
+  )
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genre_sequence")
   @Column(name = "id")
   private Long id;
 

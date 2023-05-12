@@ -1,42 +1,33 @@
 package ru.otus.library.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.otus.library.dto.comment.CommentDtoRq;
-import ru.otus.library.service.book.BookService;
+import ru.otus.library.dto.comment.CommentDtoRs;
 import ru.otus.library.service.comment.CommentService;
 
-@Controller
+@RestController
 @RequestMapping("/comments")
 @RequiredArgsConstructor
 public class CommentController {
 
   private final CommentService commentService;
-  private final BookService bookService;
 
-  @PostMapping(params="action=save")
-  public String create(
-      @ModelAttribute CommentDtoRq rq,
-      Model model
-  ){
-    commentService.save(rq);
-    model.addAttribute("book", bookService.findById(rq.getBookId()));
-
-    return "book";
+  @PostMapping
+  public ResponseEntity<CommentDtoRs> create(CommentDtoRq rq) {
+    return ResponseEntity.ok(commentService.save(rq));
   }
 
-  @PostMapping(params="action=delete")
-  public String deleteById(
-      @ModelAttribute CommentDtoRq rq,
-      Model model
-  ){
-    commentService.delete(rq.getId());
-    model.addAttribute("book", bookService.findById(rq.getBookId()));
-
-    return "book";
+  @DeleteMapping("{id}")
+  public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
+    commentService.delete(id);
+    return ResponseEntity.ok(HttpStatus.OK);
   }
 }

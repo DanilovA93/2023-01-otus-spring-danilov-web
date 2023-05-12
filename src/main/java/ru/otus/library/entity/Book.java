@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +32,11 @@ import org.hibernate.annotations.FetchMode;
 public class Book {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @SequenceGenerator(
+      name = "author_sequence",
+      sequenceName = "author_sequence"
+  )
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_sequence")
   @Column(name = "id")
   private Long id;
 

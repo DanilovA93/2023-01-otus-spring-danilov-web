@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +30,11 @@ import lombok.ToString;
 public class Author {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @SequenceGenerator(
+      name = "book_sequence",
+      sequenceName = "book_sequence"
+  )
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_sequence")
   @Column(name = "id")
   private Long id;
 

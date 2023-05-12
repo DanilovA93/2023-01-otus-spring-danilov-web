@@ -2,49 +2,32 @@ package ru.otus.library.controller;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.otus.library.dto.genre.GenreDtoRq;
+import org.springframework.web.bind.annotation.RestController;
 import ru.otus.library.dto.genre.GenreDtoRs;
 import ru.otus.library.service.genre.GenreService;
 
-@Controller
+@RestController
 @RequestMapping("/genres")
 @RequiredArgsConstructor
 public class GenreController {
 
-  private final static String GENRES_PAGE = "genres";
   private final GenreService genreService;
 
-  @PostMapping(params="action=save")
-  public String save(
-      @ModelAttribute GenreDtoRq rq,
-      Model model
-  ){
-    genreService.save(rq);
-    model.addAttribute("genres", genreService.findAll());
-    return GENRES_PAGE;
-  }
-
   @GetMapping
-  public String findAll(Model model) {
-    List<GenreDtoRs> genres = genreService.findAll();
-    model.addAttribute("genres", genres);
-    return GENRES_PAGE;
+  public ResponseEntity<List<GenreDtoRs>> findAll() {
+    return ResponseEntity.ok(genreService.findAll());
   }
 
-  @PostMapping(value = "{id}", params="action=delete")
-  public String delete(
-      @PathVariable Long id,
-      Model model
-  ){
+  @DeleteMapping("{id}")
+  public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
     genreService.delete(id);
-    model.addAttribute("genres", genreService.findAll());
-    return GENRES_PAGE;
+    return ResponseEntity.ok(HttpStatus.OK);
   }
 }
