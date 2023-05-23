@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Library</title>
+</head>
+<body>
+
+<script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
+<script src="/static/js/authors.js"></script>
+<script src="/static/js/genres.js"></script>
+<script src="/static/js/books.js"></script>
+
+<h1>Library</h1>
+
+<button id="authorsButton" onclick="openAuthors()">Authors</button>
+<button id="genresButton" onclick="openGenres()">Genres</button>
+<button id="booksButton" onclick="openBooks()">Books</button>
+
+<div id="authors" hidden>
+  <h1>Authors</h1>
+
+  <table>
+    <thead>
+    <tr>
+      <td><b>ID</b></td>
+      <td><b>NAME</b></td>
+    </tr>
+    </thead>
+    <tbody id="authors_table">
+  </table>
+</div>
+
+<div id="genres" hidden>
+  <h1>Genres</h1>
+
+  <table>
+    <thead>
+    <tr>
+      <td><b>ID</b></td>
+      <td><b>NAME</b></td>
+    </tr>
+    </thead>
+    <tbody id="genres_table">
+  </table>
+</div>
+
+<div id="books" hidden>
+  <h1>Books</h1>
+
+  <table>
+    <thead>
+    <tr>
+      <td><b>ID</b></td>
+      <td><b>NAME</b></td>
+      <td><b>AUTHOR</b></td>
+      <td><b>GENRE</b></td>
+      <td><b>ACTIONS</b></td>
+    </tr>
+    </thead>
+    <tbody id="books_table">
+  </table>
+
+</div>
+
+</body>
+</html>
