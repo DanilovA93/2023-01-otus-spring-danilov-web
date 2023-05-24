@@ -1,7 +1,7 @@
 package ru.otus.library.controller;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -40,24 +40,23 @@ class CommentControllerTest {
 
   @BeforeEach
   void before() {
-    commentDtoRq = new CommentDtoRq(1L, 1L, "comment");
-    commentDtoRs = new CommentDtoRs(1L, "comment");
+    commentDtoRq = new CommentDtoRq("1", "comment");
+    commentDtoRs = new CommentDtoRs("comment");
     bookDtoRs = new FullBookDtoRs();
-    bookDtoRs.setId(1L);
+    bookDtoRs.setId("1");
     bookDtoRs.setName("name");
-    bookDtoRs.setAuthor(new AuthorDtoRs(1L, "name"));
-    bookDtoRs.setGenre(new GenreDtoRs(1L, "name"));
+    bookDtoRs.setAuthor(new AuthorDtoRs("1", "name"));
+    bookDtoRs.setGenre(new GenreDtoRs("1", "name"));
   }
 
   @Test
   void save() throws Exception {
     given(commentService.save(any())).willReturn(commentDtoRs);
-    given(bookService.findById(anyLong())).willReturn(bookDtoRs);
+    given(bookService.findById(anyString())).willReturn(bookDtoRs);
 
     mvc.perform(
         post("/comments")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-            .param("id",      commentDtoRq.getId().toString())
             .param("bookId",  commentDtoRq.getBookId().toString())
             .param("text",    commentDtoRq.getText())
             .param("action", "save")
@@ -67,13 +66,12 @@ class CommentControllerTest {
   @Test
   void delete() throws Exception {
     doNothing().when(bookService).delete(any());
-    given(bookService.findById(anyLong())).willReturn(bookDtoRs);
+    given(bookService.findById(anyString())).willReturn(bookDtoRs);
 
     mvc.perform(
         post("/comments")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-            .param("id",      commentDtoRq.getId().toString())
-            .param("bookId",  commentDtoRq.getBookId().toString())
+            .param("bookId",  commentDtoRq.getBookId())
             .param("text",    commentDtoRq.getText())
             .param("action", "delete")
     ).andExpect(status().isOk());

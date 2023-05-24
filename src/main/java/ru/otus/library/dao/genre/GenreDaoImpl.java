@@ -18,7 +18,7 @@ public class GenreDaoImpl implements GenreDao {
   }
 
   @Override
-  public Genre findOneOrThrowException(Long id) {
+  public Genre findOneOrThrowException(String id) {
     if (id == null) {
       throw new RuntimeException("Genre id is null");
     }
@@ -36,7 +36,7 @@ public class GenreDaoImpl implements GenreDao {
   }
 
   @Override
-  public void delete(Long id) {
+  public void delete(String id) {
     genreRepository.deleteById(id);
   }
 }

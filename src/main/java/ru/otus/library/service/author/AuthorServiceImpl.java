@@ -28,7 +28,7 @@ public class AuthorServiceImpl implements AuthorService {
 
   @Override
   @Transactional(readOnly = true)
-  public AuthorDtoRs findById(Long id) {
+  public AuthorDtoRs findById(String id) {
     Author author = authorDao.findOneOrThrowException(id);
     return authorMapper.map(author);
   }
@@ -42,7 +42,7 @@ public class AuthorServiceImpl implements AuthorService {
   }
 
   @Override
-  public void delete(Long id) {
+  public void delete(String id) {
     authorDao.delete(id);
   }
 }

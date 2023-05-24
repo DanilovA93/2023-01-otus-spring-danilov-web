@@ -13,7 +13,6 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class CommentDtoRq {
 
-  private Long id;
-  private Long bookId;
+  private String bookId;
   private String text;
 }

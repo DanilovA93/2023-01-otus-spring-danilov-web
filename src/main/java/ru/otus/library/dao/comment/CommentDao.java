@@ -6,5 +6,5 @@ import ru.otus.library.entity.Comment;
 public interface CommentDao {
 
   Comment save(Comment comment);
-  void delete(Long id);
+  void delete(String id);
 }

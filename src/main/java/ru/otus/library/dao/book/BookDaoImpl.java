@@ -19,7 +19,7 @@ public class BookDaoImpl implements BookDao {
   }
 
   @Override
-  public Book findOneOrThrowException(Long id) {
+  public Book findOneOrThrowException(String id) {
     if (id == null) {
       throw new RuntimeException("Book id is null");
     }
@@ -35,7 +35,7 @@ public class BookDaoImpl implements BookDao {
   }
 
   @Override
-  public void delete(Long id) {
+  public void delete(String id) {
     bookRepository.deleteById(id);
   }
 }

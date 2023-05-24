@@ -12,7 +12,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class AuthorDtoRq {
 
-  private Long id;
+  private String id;
   private String name;
 
   public AuthorDtoRq(String name) {

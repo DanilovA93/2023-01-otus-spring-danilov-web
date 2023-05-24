@@ -7,7 +7,7 @@ import ru.otus.library.entity.Genre;
 public interface GenreDao {
 
   Genre save(Genre genre);
-  Genre findOneOrThrowException(Long genreId);
+  Genre findOneOrThrowException(String genreId);
   List<Genre> findAll();
-  void delete(Long id);
+  void delete(String id);
 }

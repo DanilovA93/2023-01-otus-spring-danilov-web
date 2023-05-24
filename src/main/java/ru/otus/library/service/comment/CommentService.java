@@ -6,5 +6,5 @@ import ru.otus.library.dto.comment.CommentDtoRs;
 public interface CommentService {
 
   CommentDtoRs save(CommentDtoRq rq);
-  void delete(Long id);
+  void delete(String id);
 }

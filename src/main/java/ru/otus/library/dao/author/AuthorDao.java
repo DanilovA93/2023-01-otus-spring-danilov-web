@@ -6,7 +6,7 @@ import ru.otus.library.entity.Author;
 public interface AuthorDao {
 
   Author save(Author author);
-  Author findOneOrThrowException(Long id);
+  Author findOneOrThrowException(String id);
   List<Author> findAll();
-  void delete(Long id);
+  void delete(String id);
 }

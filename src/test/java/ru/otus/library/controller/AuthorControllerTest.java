@@ -37,7 +37,7 @@ class AuthorControllerTest {
   @BeforeEach
   void before() {
     authorDtoRq = new AuthorDtoRq("authors");
-    authorDtoRs = new AuthorDtoRs(1L, "authors");
+    authorDtoRs = new AuthorDtoRs("1", "authors");
   }
 
   @Test

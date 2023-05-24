@@ -13,15 +13,15 @@ import lombok.Setter;
 public class BookDtoRq {
 
   @JsonIgnore
-  private Long id;
+  private String id;
 
-  private Long authorId;
-  private Long genreId;
+  private String authorId;
+  private String genreId;
   private String name;
 
   public BookDtoRq(
-      Long authorId,
-      Long genreId,
+      String authorId,
+      String genreId,
       String name
   ){
     this.authorId = authorId;

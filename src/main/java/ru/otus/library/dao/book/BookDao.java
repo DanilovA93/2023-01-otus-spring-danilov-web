@@ -5,7 +5,7 @@ import ru.otus.library.entity.Book;
 
 public interface BookDao {
   Book save(Book book);
-  Book findOneOrThrowException(Long id);
+  Book findOneOrThrowException(String id);
   List<Book> findAll();
-  void delete(Long id);
+  void delete(String id);
 }

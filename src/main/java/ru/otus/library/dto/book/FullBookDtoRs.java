@@ -17,7 +17,7 @@ public class FullBookDtoRs extends SimpleBookDtoRs {
   private final List<CommentDtoRs> comments = new ArrayList<>();
 
   public FullBookDtoRs(
-      Long id,
+      String id,
       String name,
       AuthorDtoRs author,
       GenreDtoRs genre

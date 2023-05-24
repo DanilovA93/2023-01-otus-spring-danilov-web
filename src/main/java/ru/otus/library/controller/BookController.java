@@ -23,7 +23,7 @@ public class BookController {
   private final BookService bookService;
 
   @GetMapping("{id}")
-  public ResponseEntity<FullBookDtoRs> findOne(@PathVariable Long id) {
+  public ResponseEntity<FullBookDtoRs> findOne(@PathVariable String id) {
     return ResponseEntity.ok(bookService.findById(id));
   }
 
@@ -38,7 +38,7 @@ public class BookController {
   }
 
   @DeleteMapping("{id}")
-  public ResponseEntity<HttpStatus> delete(@PathVariable Long id){
+  public ResponseEntity<HttpStatus> delete(@PathVariable String id){
     bookService.delete(id);
     return ResponseEntity.ok(HttpStatus.OK);
   }

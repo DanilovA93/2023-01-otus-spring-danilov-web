@@ -20,7 +20,7 @@ public class AuthorDaoImpl implements AuthorDao {
   }
 
   @Override
-  public Author findOneOrThrowException(Long id) {
+  public Author findOneOrThrowException(String id) {
     if (id == null) {
       throw new RuntimeException("Author id is null");
     }
@@ -37,7 +37,7 @@ public class AuthorDaoImpl implements AuthorDao {
   }
 
   @Override
-  public void delete(Long id) {
+  public void delete(String id) {
     authorRepository.deleteById(id);
   }
 }

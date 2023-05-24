@@ -2,24 +2,17 @@ package ru.otus.library.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Getter
 @Setter
@@ -27,32 +20,31 @@ import org.hibernate.annotations.FetchMode;
 @AllArgsConstructor
 @Builder
 @ToString
-@Entity
-@Table(name = "books")
+@Document("books")
 public class Book {
 
   @Id
-  @SequenceGenerator(
-      name = "author_sequence",
-      sequenceName = "author_sequence"
-  )
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_sequence")
-  @Column(name = "id")
-  private Long id;
+  private String id;
 
-  @Column(name = "name", nullable = false)
   private String name;
 
-  @ManyToOne
-  @JoinColumn(name = "author_id", nullable = false)
-  @Fetch(FetchMode.JOIN)
+  @DBRef
   private Author author;
 
-  @ManyToOne
-  @JoinColumn(name = "genre_id", nullable = false)
-  @Fetch(FetchMode.JOIN)
+  @DBRef
   private Genre genre;
 
-  @OneToMany(mappedBy = "book", orphanRemoval = true)
-  private final List<Comment> comments = new ArrayList<>();
+//  @DocumentReference
+  @Setter(AccessLevel.PRIVATE)
+  private List<Comment> comments = new ArrayList<>();
+
+  public Book(String name, Author author, Genre genre) {
+    this.name = name;
+    this.author = author;
+    this.genre = genre;
+  }
+
+  public void addComment(Comment comment) {
+    this.comments.add(comment);
+  }
 }

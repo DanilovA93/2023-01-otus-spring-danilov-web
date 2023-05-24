@@ -28,7 +28,7 @@ public class GenreServiceImpl implements GenreService {
 
   @Override
   @Transactional(readOnly = true)
-  public GenreDtoRs findById(Long id) {
+  public GenreDtoRs findById(String id) {
     Genre genre = genreDao.findOneOrThrowException(id);
     return genreMapper.map(genre);
   }
@@ -42,7 +42,7 @@ public class GenreServiceImpl implements GenreService {
   }
 
   @Override
-  public void delete(Long id) {
+  public void delete(String id) {
     genreDao.delete(id);
   }
 }

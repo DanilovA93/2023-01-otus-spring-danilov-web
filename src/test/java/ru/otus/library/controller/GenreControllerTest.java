@@ -37,7 +37,7 @@ class GenreControllerTest {
   @BeforeEach
   void before() {
     genreDtoRq = new GenreDtoRq("genre");
-    genreDtoRs = new GenreDtoRs(1L, "genre");
+    genreDtoRs = new GenreDtoRs("1", "genre");
   }
 
   @Test

@@ -24,14 +24,16 @@ public class CommentServiceImpl implements CommentService {
   @Override
   @Transactional
   public CommentDtoRs save(CommentDtoRq rq) {
+
+
     Comment comment = commentMapper.map(rq);
-    comment.setBook(bookDao.findOneOrThrowException(rq.getBookId()));
+//    comment.setBook(bookDao.findOneOrThrowException(rq.getBookId()));
     comment = commentDao.save(comment);
     return commentMapper.map(comment);
   }
 
   @Override
-  public void delete(Long id) {
+  public void delete(String id) {
     commentDao.delete(id);
   }
 }

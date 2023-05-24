@@ -42,12 +42,12 @@ public class BookServiceImpl implements BookService {
 
   @Override
   @Transactional(readOnly = true)
-  public FullBookDtoRs findById(Long id) {
+  public FullBookDtoRs findById(String id) {
     return bookMapper.mapToFull(bookDao.findOneOrThrowException(id));
   }
 
   @Override
-  public void delete(Long id) {
+  public void delete(String id) {
     bookDao.delete(id);
   }
 

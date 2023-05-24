@@ -45,16 +45,16 @@ class BookControllerTest {
 
   @BeforeEach
   void before() {
-    bookDtoRq = new BookDtoRq(1L, 1L, "genre");
-    authorDtoRs = new AuthorDtoRs(1L,"name");
-    genreDtoRs = new GenreDtoRs(1L,"name");
-    simpleBookDtoRs = new SimpleBookDtoRs(1L, "book", authorDtoRs, genreDtoRs);
-    fullBookDtoRs = new FullBookDtoRs(1L, "book", authorDtoRs, genreDtoRs);
+    bookDtoRq = new BookDtoRq("1", "1", "genre");
+    authorDtoRs = new AuthorDtoRs("1","name");
+    genreDtoRs = new GenreDtoRs("1","name");
+    simpleBookDtoRs = new SimpleBookDtoRs("1", "book", authorDtoRs, genreDtoRs);
+    fullBookDtoRs = new FullBookDtoRs("1", "book", authorDtoRs, genreDtoRs);
   }
 
   @Test
   void findOne() throws Exception {
-    Long id = 1L;
+    String id = "1";
     String url = "/books/" + id;
 
     given(bookService.findById(id)).willReturn(fullBookDtoRs);
@@ -88,7 +88,7 @@ class BookControllerTest {
     List<SimpleBookDtoRs> books = List.of(simpleBookDtoRs);
     List<AuthorDtoRs> authors = List.of(authorDtoRs);
     List<GenreDtoRs> genres = List.of(genreDtoRs);
-    Long id = 1L;
+    String id = "1";
     String url = "/books/";
 
     doNothing().when(bookService).delete(id);

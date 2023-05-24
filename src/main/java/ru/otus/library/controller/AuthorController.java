@@ -33,7 +33,7 @@ public class AuthorController {
   }
 
   @DeleteMapping("{id}")
-  public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
+  public ResponseEntity<HttpStatus> delete(@PathVariable String id) {
     authorService.delete(id);
     return ResponseEntity.ok(HttpStatus.OK);
   }

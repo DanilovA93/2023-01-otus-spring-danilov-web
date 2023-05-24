@@ -11,6 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CommentDtoRs {
 
-  private Long id;
   private String text;
 }
