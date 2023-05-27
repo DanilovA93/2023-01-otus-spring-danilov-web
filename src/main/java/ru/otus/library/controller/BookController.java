@@ -1,15 +1,14 @@
 package ru.otus.library.controller;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.library.dto.book.BookDtoRq;
 import ru.otus.library.dto.book.FullBookDtoRs;
 import ru.otus.library.dto.book.SimpleBookDtoRs;
@@ -23,23 +22,22 @@ public class BookController {
   private final BookService bookService;
 
   @GetMapping("{id}")
-  public ResponseEntity<FullBookDtoRs> findOne(@PathVariable String id) {
-    return ResponseEntity.ok(bookService.findById(id));
+  public Mono<FullBookDtoRs> findOne(@PathVariable String id) {
+    return bookService.findById(id);
   }
 
   @GetMapping
-  public ResponseEntity<List<SimpleBookDtoRs>> findAll() {
-    return ResponseEntity.ok(bookService.findAll());
+  public Flux<SimpleBookDtoRs> findAll() {
+    return bookService.findAll();
   }
 
   @PostMapping
-  public ResponseEntity<SimpleBookDtoRs> save(BookDtoRq rq) {
-    return ResponseEntity.ok(bookService.save(rq));
+  public Mono<SimpleBookDtoRs> save(BookDtoRq rq) {
+    return bookService.save(rq);
   }
 
   @DeleteMapping("{id}")
-  public ResponseEntity<HttpStatus> delete(@PathVariable String id){
-    bookService.delete(id);
-    return ResponseEntity.ok(HttpStatus.OK);
+  public Mono<Void> delete(@PathVariable String id){
+    return bookService.delete(id);
   }
 }

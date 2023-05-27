@@ -1,10 +1,10 @@
 package ru.otus.library.service.book;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.library.dao.author.AuthorDao;
 import ru.otus.library.dao.book.BookDao;
 import ru.otus.library.dao.genre.GenreDao;
@@ -25,35 +25,31 @@ public class BookServiceImpl implements BookService {
 
   @Override
   @Transactional
-  public SimpleBookDtoRs save(BookDtoRq rq) {
-    Book book = bookMapper.map(rq);
-    fill(book, rq);
-
-    return bookMapper.mapToSimple(bookDao.save(book));
+  public Mono<SimpleBookDtoRs> save(BookDtoRq rq) {
+    return Mono.just(new Book())
+        .doOnNext(s -> s.setName(rq.getName()))
+        .doOnNext(s -> s.setAuthor(authorDao.findById(rq.getAuthorId()).block()))
+        .doOnNext(s -> s.setGenre(genreDao.findById(rq.getGenreId()).block()))
+        .doOnNext(bookDao::save)
+        .map(bookMapper::mapToSimple);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public List<SimpleBookDtoRs> findAll() {
-    return bookDao.findAll().stream()
-        .map(bookMapper::mapToSimple)
-        .collect(Collectors.toList());
+  public Flux<SimpleBookDtoRs> findAll() {
+    return bookDao.findAll()
+        .map(bookMapper::mapToSimple);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public FullBookDtoRs findById(String id) {
-    return bookMapper.mapToFull(bookDao.findOneOrThrowException(id));
+  public Mono<FullBookDtoRs> findById(String id) {
+    return bookDao.findById(id)
+        .map(bookMapper::mapToFull);
   }
 
   @Override
-  public void delete(String id) {
-    bookDao.delete(id);
-  }
-
-  private void fill(Book book, BookDtoRq rq) {
-    book.setAuthor(authorDao.findOneOrThrowException(rq.getAuthorId()));
-    book.setGenre(genreDao.findOneOrThrowException(rq.getGenreId()));
-    book.setName(rq.getName());
+  public Mono<Void> delete(String id) {
+    return bookDao.delete(id);
   }
 }

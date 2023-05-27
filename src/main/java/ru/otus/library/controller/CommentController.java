@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 import ru.otus.library.dto.comment.CommentDtoRq;
 import ru.otus.library.dto.comment.CommentDtoRs;
 import ru.otus.library.service.comment.CommentService;
@@ -21,13 +22,12 @@ public class CommentController {
   private final CommentService commentService;
 
   @PostMapping
-  public ResponseEntity<CommentDtoRs> create(CommentDtoRq rq) {
-    return ResponseEntity.ok(commentService.save(rq));
+  public Mono<Void> create(CommentDtoRq rq) {
+    return commentService.save(rq);
   }
 
   @DeleteMapping("{id}")
-  public ResponseEntity<HttpStatus> delete(@PathVariable String id) {
-    commentService.delete(id);
-    return ResponseEntity.ok(HttpStatus.OK);
+  public Mono<Void> delete(@PathVariable String id) {
+    return commentService.delete(id);
   }
 }

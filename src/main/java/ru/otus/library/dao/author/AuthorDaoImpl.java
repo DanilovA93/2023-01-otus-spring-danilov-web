@@ -1,9 +1,10 @@
 package ru.otus.library.dao.author;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.library.entity.Author;
 import ru.otus.library.repository.AuthorRepository;
 
@@ -15,29 +16,26 @@ public class AuthorDaoImpl implements AuthorDao {
   private final AuthorRepository authorRepository;
 
   @Override
-  public Author save(Author author) {
+  public Mono<Author> save(Author author) {
     return authorRepository.save(author);
   }
 
   @Override
-  public Author findOneOrThrowException(String id) {
+  public Mono<Author> findById(String id) {
     if (id == null) {
       throw new RuntimeException("Author id is null");
     }
 
-    return authorRepository.findById(id)
-        .orElseThrow(
-            () -> new RuntimeException("Author with id " + id + "  not found")
-        );
+    return authorRepository.findById(id);
   }
 
   @Override
-  public List<Author> findAll() {
+  public Flux<Author> findAll() {
     return authorRepository.findAll();
   }
 
   @Override
-  public void delete(String id) {
-    authorRepository.deleteById(id);
+  public Mono<Void> delete(String id) {
+    return authorRepository.deleteById(id);
   }
 }

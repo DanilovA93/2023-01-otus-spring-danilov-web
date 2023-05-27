@@ -1,11 +1,12 @@
 package ru.otus.library.dao.book;
 
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.library.entity.Book;
 
 public interface BookDao {
-  Book save(Book book);
-  Book findOneOrThrowException(String id);
-  List<Book> findAll();
-  void delete(String id);
+  Mono<Book> save(Book book);
+  Mono<Book> findById(String id);
+  Flux<Book> findAll();
+  Mono<Void> delete(String id);
 }

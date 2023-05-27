@@ -1,8 +1,9 @@
 package ru.otus.library.dao.genre;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.library.entity.Genre;
 import ru.otus.library.repository.GenreRepository;
 
@@ -13,30 +14,26 @@ public class GenreDaoImpl implements GenreDao {
   private final GenreRepository genreRepository;
 
   @Override
-  public Genre save(Genre genre) {
+  public Mono<Genre> save(Genre genre) {
     return genreRepository.save(genre);
   }
 
   @Override
-  public Genre findOneOrThrowException(String id) {
+  public Mono<Genre> findById(String id) {
     if (id == null) {
       throw new RuntimeException("Genre id is null");
     }
 
-    return genreRepository
-        .findById(id)
-        .orElseThrow(
-            () -> new RuntimeException("Genre with id " + id + "  not found")
-        );
+    return genreRepository.findById(id);
   }
 
   @Override
-  public List<Genre> findAll() {
+  public Flux<Genre> findAll() {
     return genreRepository.findAll();
   }
 
   @Override
-  public void delete(String id) {
-    genreRepository.deleteById(id);
+  public Mono<Void> delete(String id) {
+    return genreRepository.deleteById(id);
   }
 }
