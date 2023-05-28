@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class GenreDtoRs {
 
-  private Long id;
+  private String id;
   private String name;
 }

@@ -15,7 +15,7 @@ import ru.otus.library.dto.genre.GenreDtoRs;
 @ToString
 public class SimpleBookDtoRs {
 
-  private Long id;
+  private String id;
   private String name;
   private AuthorDtoRs author;
   private GenreDtoRs genre;

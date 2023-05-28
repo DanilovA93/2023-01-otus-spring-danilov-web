@@ -1,10 +1,10 @@
 package ru.otus.library.service.author;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.library.dao.author.AuthorDao;
 import ru.otus.library.dto.author.AuthorDtoRq;
 import ru.otus.library.dto.author.AuthorDtoRs;
@@ -20,29 +20,28 @@ public class AuthorServiceImpl implements AuthorService {
 
   @Override
   @Transactional
-  public AuthorDtoRs save(AuthorDtoRq rq) {
+  public Mono<AuthorDtoRs> save(AuthorDtoRq rq) {
     Author author = authorMapper.map(rq);
-    authorDao.save(author);
-    return authorMapper.map(author);
+    return authorDao.save(author)
+        .map(authorMapper::map);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public AuthorDtoRs findById(Long id) {
-    Author author = authorDao.findOneOrThrowException(id);
-    return authorMapper.map(author);
+  public Mono<AuthorDtoRs> findById(String id) {
+    return authorDao.findById(id)
+        .map(authorMapper::map);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public List<AuthorDtoRs> findAll() {
-    return authorDao.findAll().stream()
-        .map(authorMapper::map)
-        .collect(Collectors.toList());
+  public Flux<AuthorDtoRs> findAll() {
+    return authorDao.findAll()
+        .map(authorMapper::map);
   }
 
   @Override
-  public void delete(Long id) {
-    authorDao.delete(id);
+  public Mono<Void> delete(String id) {
+    return authorDao.delete(id);
   }
 }

@@ -1,9 +1,9 @@
 package ru.otus.library.dao.book;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.library.entity.Book;
 import ru.otus.library.repository.BookRepository;
 
@@ -14,28 +14,26 @@ public class BookDaoImpl implements BookDao {
   private final BookRepository bookRepository;
 
   @Override
-  public Book save(Book book) {
+  public Mono<Book> save(Book book) {
     return bookRepository.save(book);
   }
 
   @Override
-  public Book findOneOrThrowException(Long id) {
+  public Mono<Book> findById(String id) {
     if (id == null) {
       throw new RuntimeException("Book id is null");
     }
 
-    return bookRepository
-        .findById(id)
-        .orElseThrow(() -> new RuntimeException("Book with id " + id + "  not found"));
+    return bookRepository.findById(id);
   }
 
   @Override
-  public List<Book> findAll() {
+  public Flux<Book> findAll() {
     return bookRepository.findAll();
   }
 
   @Override
-  public void delete(Long id) {
-    bookRepository.deleteById(id);
+  public Mono<Void> delete(String id) {
+    return bookRepository.deleteById(id);
   }
 }

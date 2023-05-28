@@ -1,13 +1,13 @@
 package ru.otus.library.dao.genre;
 
-import java.util.List;
-import ru.otus.library.entity.Author;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.library.entity.Genre;
 
 public interface GenreDao {
 
-  Genre save(Genre genre);
-  Genre findOneOrThrowException(Long genreId);
-  List<Genre> findAll();
-  void delete(Long id);
+  Mono<Genre> save(Genre genre);
+  Mono<Genre> findById(String genreId);
+  Flux<Genre> findAll();
+  Mono<Void> delete(String id);
 }

@@ -1,12 +1,13 @@
 package ru.otus.library.dao.author;
 
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.library.entity.Author;
 
 public interface AuthorDao {
 
-  Author save(Author author);
-  Author findOneOrThrowException(Long id);
-  List<Author> findAll();
-  void delete(Long id);
+  Mono<Author> save(Author author);
+  Mono<Author> findById(String id);
+  Flux<Author> findAll();
+  Mono<Void> delete(String id);
 }

@@ -1,29 +1,29 @@
 package ru.otus.library.controller;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.library.dto.author.AuthorDtoRq;
 import ru.otus.library.dto.author.AuthorDtoRs;
 import ru.otus.library.service.author.AuthorService;
 
-@WebMvcTest(AuthorController.class)
+@WebFluxTest(AuthorController.class)
 class AuthorControllerTest {
 
   @Autowired
-  private MockMvc mvc;
+  private WebTestClient client;
 
   @Autowired
   private ObjectMapper mapper;
@@ -32,37 +32,51 @@ class AuthorControllerTest {
   private AuthorService authorService;
 
   private AuthorDtoRq authorDtoRq;
-  private AuthorDtoRs authorDtoRs;
+  private Mono<AuthorDtoRs> monoRs;
 
   @BeforeEach
   void before() {
     authorDtoRq = new AuthorDtoRq("authors");
-    authorDtoRs = new AuthorDtoRs(1L, "authors");
+    monoRs = Mono.just(new AuthorDtoRs("1", "authors"));
   }
 
   @Test
   void save() throws Exception {
-    given(authorService.save(authorDtoRq)).willReturn(authorDtoRs);
+    given(authorService.save(authorDtoRq)).willReturn(monoRs);
 
-    mvc.perform(post("/authors")
-        .contentType(APPLICATION_JSON_VALUE)
-        .content(mapper.writeValueAsString(authorDtoRq)))
-        .andExpect(status().isOk());
+    client.post()
+        .uri("/authors")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .bodyValue(mapper.writeValueAsString(authorDtoRq))
+        .exchange()
+        .expectStatus().isOk()
+        .returnResult(AuthorDtoRs.class)
+        .getResponseBody()
+        .blockFirst();
   }
 
   @Test
   void findAll() throws Exception {
-    List<AuthorDtoRs> authors = List.of(authorDtoRs);
+    Flux<AuthorDtoRs> flux = monoRs.flux();
 
-    given(authorService.findAll()).willReturn(authors);
+    given(authorService.findAll()).willReturn(flux);
 
-    mvc.perform(get("/authors"))
-        .andExpect(status().isOk());
+    client.get()
+        .uri("/authors")
+        .accept(MediaType.APPLICATION_JSON)
+        .exchange()
+        .expectStatus().isOk()
+        .returnResult(AuthorDtoRs.class)
+        .getResponseBody()
+        .blockFirst();
   }
 
   @Test
   void deleteById() throws Exception {
-    mvc.perform(delete("/authors/" + authorDtoRs.getId()))
-        .andExpect(status().isOk());
+    client.delete()
+        .uri("/authors/" + Objects.requireNonNull(monoRs.block()).getId())
+        .exchange()
+        .expectStatus().isOk();
   }
 }

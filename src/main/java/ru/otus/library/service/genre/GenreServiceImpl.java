@@ -1,10 +1,11 @@
 package ru.otus.library.service.genre;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.library.dao.genre.GenreDao;
 import ru.otus.library.dto.genre.GenreDtoRq;
 import ru.otus.library.dto.genre.GenreDtoRs;
@@ -20,29 +21,28 @@ public class GenreServiceImpl implements GenreService {
 
   @Override
   @Transactional
-  public GenreDtoRs save(GenreDtoRq rq) {
+  public Mono<GenreDtoRs> save(GenreDtoRq rq) {
     Genre genre = genreMapper.map(rq);
-    genreDao.save(genre);
-    return genreMapper.map(genre);
+    return genreDao.save(genre)
+        .map(genreMapper::map);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public GenreDtoRs findById(Long id) {
-    Genre genre = genreDao.findOneOrThrowException(id);
-    return genreMapper.map(genre);
+  public Mono<GenreDtoRs> findById(String id) {
+    return genreDao.findById(id)
+        .map(genreMapper::map);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public List<GenreDtoRs> findAll() {
-    return genreDao.findAll().stream()
-        .map(genreMapper::map)
-        .collect(Collectors.toList());
+  public Flux<GenreDtoRs> findAll() {
+    return genreDao.findAll()
+        .map(genreMapper::map);
   }
 
   @Override
-  public void delete(Long id) {
-    genreDao.delete(id);
+  public Mono<Void> delete(String id) {
+    return genreDao.delete(id);
   }
 }
