@@ -25,7 +25,7 @@ public class AuthorController {
 
   private final AuthorService authorService;
 
-  @PostMapping
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   public Mono<AuthorDtoRs> create(@RequestBody AuthorDtoRq rq) {
     return authorService.save(rq);
   }

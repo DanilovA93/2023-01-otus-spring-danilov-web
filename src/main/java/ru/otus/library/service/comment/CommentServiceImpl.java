@@ -25,8 +25,4 @@ public class CommentServiceImpl implements CommentService {
         .then();
   }
 
-  @Override
-  public Mono<Void> delete(String id) {
-    return bookDao.delete(id);
-  }
 }

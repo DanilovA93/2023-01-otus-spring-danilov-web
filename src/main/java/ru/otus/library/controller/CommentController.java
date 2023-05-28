@@ -25,9 +25,4 @@ public class CommentController {
   public Mono<Void> create(CommentDtoRq rq) {
     return commentService.save(rq);
   }
-
-  @DeleteMapping("{id}")
-  public Mono<Void> delete(@PathVariable String id) {
-    return commentService.delete(id);
-  }
 }
