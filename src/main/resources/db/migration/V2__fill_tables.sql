@@ -21,9 +21,35 @@ values (
 
 insert into books(id, name, author_id, genre_id)
 values (
-        nextval('book_sequence'), 'Poor Folk',
-        currval('author_sequence'), currval('genre_sequence')
+        nextval('book_sequence'),
+        'Poor Folk',
+        currval('author_sequence'),
+        currval('genre_sequence')
         );
 
 ----------------------------------------------------------------------------------------------------
 -------COMMENT--------------------------------------------------------------------------------------
+
+insert into comments(id, text, book_id)
+values (
+        nextval('comment_sequence'),
+        'first comment',
+        currval('book_sequence')
+       );
+
+insert into comments(id, text, book_id)
+values (
+           nextval('comment_sequence'),
+           'second comment',
+           currval('book_sequence')
+       );
+
+----------------------------------------------------------------------------------------------------
+-------USERS----------------------------------------------------------------------------------------
+
+insert into users(id, login, password)
+values (
+           nextval('user_sequence'),
+           'login',
+           'password'
+       );

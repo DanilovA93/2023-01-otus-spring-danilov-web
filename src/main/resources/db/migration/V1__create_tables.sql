@@ -44,3 +44,15 @@ create table if not exists comments
 );
 
 create sequence comment_sequence increment by 50;
+
+----------------------------------------------------------------------------------------------------
+-------USERS----------------------------------------------------------------------------------------
+
+create table if not exists users
+(
+    id          bigint not null primary key,
+    login       varchar(32) not null,
+    password    varchar(32) not null
+);
+
+create sequence user_sequence increment by 50;
