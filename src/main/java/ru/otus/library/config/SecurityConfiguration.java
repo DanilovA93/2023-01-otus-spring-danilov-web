@@ -10,29 +10,31 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import ru.otus.library.service.user.UserService;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
+  private final UserService userService;
   private final DataSource dataSource;
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth)
       throws Exception {
-    auth.jdbcAuthentication()
+    auth
+        .userDetailsService(userService)
+        .and()
+        .jdbcAuthentication()
         .dataSource(dataSource);
-//        .withDefaultSchema();
-//        .withUser(
-//            User.withUsername("username")
-//            .password("password")
-//            .roles("USER")
-//        );
   }
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.csrf().disable()
+    http
+        .csrf().disable()
+        .headers().frameOptions().disable()
+        .and()
         .authorizeHttpRequests((auth) -> {
           auth.antMatchers("/").authenticated();
         })
