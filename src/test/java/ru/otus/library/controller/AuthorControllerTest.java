@@ -47,7 +47,7 @@ class AuthorControllerTest {
     mvc.perform(post("/authors")
         .contentType(APPLICATION_JSON_VALUE)
         .content(mapper.writeValueAsString(authorDtoRq)))
-        .andExpect(status().isOk());
+        .andExpect(status().isForbidden());
   }
 
   @Test
@@ -57,12 +57,12 @@ class AuthorControllerTest {
     given(authorService.findAll()).willReturn(authors);
 
     mvc.perform(get("/authors"))
-        .andExpect(status().isOk());
+        .andExpect(status().isForbidden());
   }
 
   @Test
   void deleteById() throws Exception {
     mvc.perform(delete("/authors/" + authorDtoRs.getId()))
-        .andExpect(status().isOk());
+        .andExpect(status().isForbidden());
   }
 }

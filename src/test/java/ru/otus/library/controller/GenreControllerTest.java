@@ -47,7 +47,7 @@ class GenreControllerTest {
     mvc.perform(post("/genres")
         .contentType(APPLICATION_JSON_VALUE)
         .content(mapper.writeValueAsString(genreDtoRq)))
-        .andExpect(status().isOk());
+        .andExpect(status().isForbidden());
   }
 
   @Test
@@ -57,12 +57,12 @@ class GenreControllerTest {
     given(genreService.findAll()).willReturn(genres);
 
     mvc.perform(get("/genres"))
-        .andExpect(status().isOk());
+        .andExpect(status().isForbidden());
   }
 
   @Test
   void deleteById() throws Exception {
     mvc.perform(delete("/genres/" + genreDtoRs.getId()))
-        .andExpect(status().isOk());
+        .andExpect(status().isForbidden());
   }
 }
