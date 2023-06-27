@@ -47,9 +47,15 @@ values (
 ----------------------------------------------------------------------------------------------------
 -------USERS----------------------------------------------------------------------------------------
 
-insert into users(id, login, password)
+insert into users(username, password, enabled)
 values (
-           nextval('user_sequence'),
-           'login',
-           'password'
+        'username',
+        'password',
+        true
+        );
+
+insert into authorities(username, authority)
+values (
+           'username',
+           'USER'
        );

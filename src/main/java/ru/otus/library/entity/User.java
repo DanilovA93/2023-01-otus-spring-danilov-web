@@ -27,17 +27,15 @@ import lombok.ToString;
 public class User {
 
   @Id
-  @SequenceGenerator(
-      name = "user_sequence",
-      sequenceName = "user_sequence"
-  )
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
-  @Column(name = "id")
-  private Long id;
-
-  @Column(name = "login", nullable = false)
-  private String login;
+  @Column(name = "username", nullable = false, unique = true)
+  private String username;
 
   @Column(name = "password", nullable = false)
   private String password;
+
+  @Column(name = "role", nullable = false)
+  private String role;
+
+  @Column(name = "enabled", nullable = false)
+  private boolean enabled = true;
 }
