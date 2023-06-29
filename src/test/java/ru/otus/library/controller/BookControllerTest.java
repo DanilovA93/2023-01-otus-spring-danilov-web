@@ -59,7 +59,7 @@ class BookControllerTest {
 
     given(bookService.findById(id)).willReturn(fullBookDtoRs);
 
-    mvc.perform(get(url)).andExpect(status().isOk());
+    mvc.perform(get(url)).andExpect(status().isForbidden());
   }
 
   @Test
@@ -69,7 +69,7 @@ class BookControllerTest {
 
     given(bookService.findAll()).willReturn(list);
 
-    mvc.perform(get(url)).andExpect(status().isOk());
+    mvc.perform(get(url)).andExpect(status().isForbidden());
   }
 
   @Test
@@ -80,7 +80,7 @@ class BookControllerTest {
 
     mvc.perform(post(url)
         .param("action", "save"))
-        .andExpect(status().isOk());
+        .andExpect(status().isForbidden());
   }
 
   @Test
@@ -98,6 +98,6 @@ class BookControllerTest {
 
     mvc.perform(post(url)
         .param("action", "delete"))
-        .andExpect(status().isOk());
+        .andExpect(status().isForbidden());
   }
 }

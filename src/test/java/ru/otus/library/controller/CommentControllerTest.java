@@ -61,7 +61,7 @@ class CommentControllerTest {
             .param("bookId",  commentDtoRq.getBookId().toString())
             .param("text",    commentDtoRq.getText())
             .param("action", "save")
-    ).andExpect(status().isOk());
+    ).andExpect(status().isForbidden());
   }
 
   @Test
@@ -76,6 +76,6 @@ class CommentControllerTest {
             .param("bookId",  commentDtoRq.getBookId().toString())
             .param("text",    commentDtoRq.getText())
             .param("action", "delete")
-    ).andExpect(status().isOk());
+    ).andExpect(status().isForbidden());
   }
 }
